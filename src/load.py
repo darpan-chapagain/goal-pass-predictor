@@ -30,6 +30,10 @@ LEAKS = [
     "pass_goal_assist",
     "pass_shot_assist",
     "pass_assisted_shot_id",
+    "pass_assisted_shot_id",
+    "pass_recipient_id",
+    "pass_deflected",
+
 ]
 
 # ignoring warning messages from statsbombpy library
