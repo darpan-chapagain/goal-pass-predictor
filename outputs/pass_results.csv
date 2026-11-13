@@ -1,0 +1,6 @@
+model,trainAuc,validationAuc,testAuc,testBrier,testLogloss
+"Logistic regression, start and direction",0.823,0.823,0.813,0.122,0.39
+"Logistic regression, all features",0.925,0.925,0.917,0.09,0.285
+"XGBoost, start and direction",0.907,0.883,0.878,0.102,0.328
+"XGBoost, + context",0.932,0.913,0.91,0.09,0.289
+"XGBoost, + 360 features",0.959,0.942,0.937,0.078,0.247
