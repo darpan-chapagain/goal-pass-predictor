@@ -42,6 +42,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="statsbombpy")
 
 os.makedirs(f"{RAW}/events", exist_ok=True)
 os.makedirs(f"{RAW}/frames", exist_ok=True)
+os.makedirs(f"{RAW}/lineups", exist_ok=True)
 
 def loadMatches():
     path = f"{RAW}/matches.pkl"
@@ -77,3 +78,13 @@ def loadFrames(matchId):
     frames = sb.frames(match_id=matchId)
     frames.to_pickle(path)
     return frames
+
+def loadLineups(matchId):
+    """Lineups of one match, with nicknames and the minutes each player was on the pitch."""
+    path = f"{RAW}/lineups/{matchId}.pkl.gz"
+    if os.path.exists(path):
+        return pd.read_pickle(path)
+
+    lineups = sb.lineups(match_id=matchId)
+    pd.to_pickle(lineups, path)
+    return lineups

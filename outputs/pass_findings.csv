@@ -1,19 +1,23 @@
 ,value
-Matches with 360 data,425.0
-Raw passes,447122.0
-Passes left after dropna(),0.0
-Blank outcome (completed),367768.0
-Incomplete,68464.0
-Out,7223.0
-Pass Offside,1346.0
-Unknown (dropped),2014.0
-Injury Clearance (dropped),307.0
-Shootout passes (dropped),0.0
-under_pressure blank,383905.0
-Passes with no 360 frame (dropped),73482.0
-360 frames,1381467.0
-Frames with all 22 players,388.0
-Frames with no actor,2.0
+Matches marked 360 available,426
+Matches skipped (corrupt 360 file),1
+Matches loaded,425
+Loaded matches with no framed passes,7
+Matches in the clean file,418
+Raw passes,447122
+Passes left after dropna(),0
+Blank outcome (completed),367768
+Incomplete,68464
+Out,7223
+Pass Offside,1346
+Unknown (dropped),2014
+Injury Clearance (dropped),307
+Shootout passes (dropped),0
+under_pressure blank,383905
+Passes with no 360 frame (dropped),73482
+360 frames,1381467
+Frames with all 22 players,388
+Frames with no actor,2
 Average players per frame,15.6
-Clean passes saved,371845.0
+Clean passes saved,371845
 Completed share of clean passes,0.826
