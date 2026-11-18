@@ -1,0 +1,7 @@
+model,trainAuc,trainBrier,trainLogloss,validationAuc,validationBrier,validationLogloss,testAuc,testBrier,testLogloss
+"Logistic regression, start and direction",0.766,0.119,0.377,0.765,0.119,0.377,0.764,0.14,0.43
+"Logistic regression, all safe features",0.881,0.092,0.296,0.881,0.092,0.296,0.876,0.108,0.338
+"XGBoost, start and direction",0.838,0.101,0.327,0.82,0.105,0.34,0.815,0.125,0.391
+"XGBoost, + context",0.896,0.083,0.273,0.884,0.087,0.286,0.881,0.102,0.326
+"XGBoost, + 360 around the passer (main model)",0.911,0.08,0.259,0.899,0.085,0.273,0.893,0.1,0.313
+"XGBoost, + end-point features (leaky)",0.952,0.06,0.195,0.942,0.066,0.214,0.936,0.078,0.248
