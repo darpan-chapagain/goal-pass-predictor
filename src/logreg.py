@@ -1,57 +1,55 @@
 import numpy as np
 
 def fitScaling(X):
-    """calculating  the mean and standard deviation of each feature."""
+    """c alculate the mean and standard deviation of each feature."""
+
     Mean = np.mean(X, axis=0)
     Std = np.std(X, axis=0)
-    Std[Std == 0] = 1
-    return Mean, Std
 
+    Std[Std == 0] = 1
+
+    return Mean, Std
 def applyScaling(X, Mean, Std):
-    """   standardizing feature using previously calculated scaling value."""
+    """standardize features using the training data's mean and standard deviation."""
 
     ScaledX = (X - Mean) / Std
 
     return ScaledX
 
 def sigmoid(Z):
-    """converting th  model scores into probabilities between 0 and 1."""
+    """ cconvert model scores into probabilities between 0 and 1."""
 
     Z = np.clip(Z, -500, 500)
 
     return 1 / (1 + np.exp(-Z))
 
-def fitLogreg(X, Y, LearningRate=0.1, Iterations=2000):
-    """traing the  logistic regression using batch gradient descent."""
-
+def fitLogreg(X, y, rate=0.1, steps=2000):
+    """ train logistic regression using batch gradient descent."""
     X = np.asarray(X, dtype=float)
-    Y = np.asarray(Y, dtype=float).reshape(-1)
+    y = np.asarray(y, dtype=float).reshape(-1)
+    Rows = X.shape[0]
+    X = np.column_stack([np.ones(Rows), X])
+    Weights = np.zeros(X.shape[1])
 
-    Rows, Columns = X.shape
-
-    Weights = np.zeros(Columns)
-    Bias = 0.0
-
-    for _ in range(Iterations):
-        Scores = X @ Weights + Bias
+    for _ in range(steps):
+        Scores = X @ Weights
         Predictions = sigmoid(Scores)
 
-        Errors = Predictions - Y
+        Errors = Predictions - y
 
-        WeightGradient = (X.T @ Errors) / Rows
-        BiasGradient = np.mean(Errors)
+        Gradient = (X.T @ Errors) / Rows
 
-        Weights -= LearningRate * WeightGradient
-        Bias -= LearningRate * BiasGradient
+        Weights -= rate * Gradient
 
-    return Weights, Bias
+    return Weights
 
-def predictLogreg(X, Weights, Bias):
-    """predicting the  class 1 probabilities using trained logistic regression."""
+def predictLogreg(weights, X):
+    """Predict class 1 probabilities using trained logistic regression weights."""
 
     X = np.asarray(X, dtype=float)
-
-    Scores = X @ Weights + Bias
+    Rows = X.shape[0]
+    X = np.column_stack([np.ones(Rows), X])
+    Scores = X @ weights
     Probabilities = sigmoid(Scores)
 
     return Probabilities
