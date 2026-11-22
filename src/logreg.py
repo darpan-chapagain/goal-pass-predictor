@@ -23,7 +23,7 @@ def sigmoid(Z):
 
     return 1 / (1 + np.exp(-Z))
 
-def fitLogreg(X, y, rate=0.1, steps=2000):
+def fitLogreg(X, y, rate=0.1, steps=2000, l2=0.0):
     """ train logistic regression using batch gradient descent."""
     X = np.asarray(X, dtype=float)
     y = np.asarray(y, dtype=float).reshape(-1)
@@ -34,13 +34,10 @@ def fitLogreg(X, y, rate=0.1, steps=2000):
     for _ in range(steps):
         Scores = X @ Weights
         Predictions = sigmoid(Scores)
-
         Errors = Predictions - y
-
         Gradient = (X.T @ Errors) / Rows
-
+        Gradient[1:] += (l2 / Rows) * Weights[1:]
         Weights -= rate * Gradient
-
     return Weights
 
 def predictLogreg(weights, X):
