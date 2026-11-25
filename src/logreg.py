@@ -1,52 +1,66 @@
 import numpy as np
-
 def fitScaling(X):
-    """c alculate the mean and standard deviation of each feature."""
+    """Calculate the mean and standard deviation of each feature."""
+    mean = np.mean(X, axis=0)
+    spread = np.std(X, axis=0)
+    spread[spread == 0] = 1
+    return mean, spread
 
-    Mean = np.mean(X, axis=0)
-    Std = np.std(X, axis=0)
+def applyScaling(X, mean, spread):
+    """Standardize features using the training data's mean and standard deviation."""
 
-    Std[Std == 0] = 1
+    scaledX = (X - mean) / spread
 
-    return Mean, Std
-def applyScaling(X, Mean, Std):
-    """standardize features using the training data's mean and standard deviation."""
+    return scaledX
 
-    ScaledX = (X - Mean) / Std
+def sigmoid(z):
+    """Convert model scores into probabilities between 0 and 1."""
 
-    return ScaledX
+    z = np.clip(z, -500, 500)
 
-def sigmoid(Z):
-    """ cconvert model scores into probabilities between 0 and 1."""
+    return 1 / (1 + np.exp(-z))
 
-    Z = np.clip(Z, -500, 500)
-
-    return 1 / (1 + np.exp(-Z))
-
-def fitLogreg(X, y, rate=0.1, steps=2000, l2=0.0):
-    """ train logistic regression using batch gradient descent."""
+def fitLogreg(X, y, rate=0.1, steps=2000, l2=0.0, tolerance=None, returnSteps=False):
+    """Train logistic regression using batch gradient descent."""
     X = np.asarray(X, dtype=float)
     y = np.asarray(y, dtype=float).reshape(-1)
-    Rows = X.shape[0]
-    X = np.column_stack([np.ones(Rows), X])
-    Weights = np.zeros(X.shape[1])
+    rows = X.shape[0]
+    X = np.column_stack([np.ones(rows), X])
+    weights = np.zeros(X.shape[1])
+    previousCost = None
+    stepsUsed = 0
 
     for _ in range(steps):
-        Scores = X @ Weights
-        Predictions = sigmoid(Scores)
-        Errors = Predictions - y
-        Gradient = (X.T @ Errors) / Rows
-        Gradient[1:] += (l2 / Rows) * Weights[1:]
-        Weights -= rate * Gradient
-    return Weights
+        stepsUsed += 1
+        scores = X @ weights
+        predictions = sigmoid(scores)
+        errors = predictions - y
+        gradient = (X.T @ errors) / rows
+        gradient[1:] += (l2 / rows) * weights[1:]
+        weights -= rate * gradient
+
+        if tolerance is not None:
+            scores = X @ weights
+            cost = np.mean(np.logaddexp(0, scores) - y * scores)
+            cost += (l2 / (2 * rows)) * np.sum(weights[1:] ** 2)
+
+            if previousCost is not None:
+                if abs(previousCost - cost) < tolerance:
+                    break
+
+            previousCost = cost
+    if returnSteps:
+        return weights, stepsUsed
+
+    return weights
 
 def predictLogreg(weights, X):
     """Predict class 1 probabilities using trained logistic regression weights."""
 
     X = np.asarray(X, dtype=float)
-    Rows = X.shape[0]
-    X = np.column_stack([np.ones(Rows), X])
-    Scores = X @ weights
-    Probabilities = sigmoid(Scores)
+    rows = X.shape[0]
+    X = np.column_stack([np.ones(rows), X])
+    scores = X @ weights
+    probabilities = sigmoid(scores)
 
-    return Probabilities
+    return probabilities
