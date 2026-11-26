@@ -1,0 +1,6 @@
+model,inputs,validationAuc,testAuc
+"XGBoost, all features",42,0.8105416307286459,0.801751178005464
+"XGBoost, minus freeze frame",33,0.7918617701272446,0.784411442147863
+"XGBoost, minus flags",35,0.8099659326242639,0.8008782373896012
+"XGBoost, minus body part, technique, type, play pattern",18,0.8055316743778793,0.792820689321116
+"XGBoost, minus distance and angle",40,0.7979239666497648,0.7907229773114268
